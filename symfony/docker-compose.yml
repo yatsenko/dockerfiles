@@ -1,0 +1,38 @@
+nginx:
+  build: ./nginx
+  ports:
+    - ${PORT}:80
+  links:
+    - php
+  volumes_from:
+    - php
+  volumes:
+    - ${PROJECT_DIR}data/logs/nginx/:/var/log/nginx/
+  container_name: ${APP_NAME}_nginx
+php:
+  build: ./php-fpm
+  volumes:
+    - ${PROJECT_DIR}src/:/var/app
+  container_name: ${APP_NAME}_php
+db:
+  image: mysql
+  volumes:
+    - ${PROJECT_DIR}data/db/:/var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASS}
+    MYSQL_USER: ${DATABASE_USER}
+    MYSQL_PASSWORD: ${DATABASE_USER_PASS}
+    MYSQL_DATABASE: ${DATABASE_NAME}
+  container_name: ${APP_NAME}_db
+phpmyadmin:
+  image: phpmyadmin/phpmyadmin
+  restart: always
+  links:
+      - db
+  ports:
+    - ${PHPMYADMIN_PORT}:80
+  environment:
+    MYSQL_USERNAME: ${DATABASE_USER}
+    MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASS}
+    PMA_ARBITRARY: 1
+  container_name: ${APP_NAME}_phpmyadmin

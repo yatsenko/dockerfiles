@@ -1,0 +1,10 @@
+version: '2'
+services:
+  jenkins:
+    image: 'jenkinsci/jenkins:latest'
+    ports:
+      - '8089:8080'
+    volumes:
+      - jenkins_data:/var/jenkins_home
+volumes:
+  jenkins_data:

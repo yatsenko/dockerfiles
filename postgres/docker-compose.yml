@@ -1,0 +1,12 @@
+PostgreSQL:
+  restart: always
+  image: sameersbn/postgresql:9.5
+  ports:
+    - "{PORT}:5432"
+  environment:
+    - DEBUG=${DEBUG}
+
+    - DB_USER=${DB_USER}
+    - DB_PASS=${DB_PASS}
+  volumes:
+    - ${DATA_DIR}:/var/lib/postgresql

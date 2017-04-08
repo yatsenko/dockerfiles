@@ -1,0 +1,8 @@
+elasticsearch:
+  restart: always
+  image: elasticsearch
+  ports:
+    - 9200:9200
+    - 9300:9300
+  volumes:
+    - ${DATA_DIR}:/usr/share/elasticsearch/data
